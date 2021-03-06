@@ -2,7 +2,7 @@
 
 
 
-# pseudocode
+## Pseudocode
 
 There will be a loop to create the number of rosettes we want. Here there are 8, with different shapes and densities, so there will be random numbers to make them look different from each other.
 We will fix with random numbers the position of the center of each rosette.
