@@ -1,13 +1,37 @@
 var gui = new dat.GUI();
 var params = {
-    Ellipse_Size: 30,
+    Nb_Rosace: 8,
+    Line_Size: 250,
+    Line_Density: 200,
+    RandomSeed: 0,
     Download_Image: function () { return save(); },
 };
-gui.add(params, "Ellipse_Size", 0, 100, 1);
+gui.add(params, "RandomSeed", 0, 20, 1);
+gui.add(params, "Nb_Rosace", 0, 15, 1);
+gui.add(params, "Line_Size", 0, 500, 1);
+gui.add(params, "Line_Density", 0, 300, 1);
 gui.add(params, "Download_Image");
 function draw() {
-    background(0);
-    ellipse(mouseX, mouseY, params.Ellipse_Size);
+    background(223, 195, 227);
+    randomSeed(params.RandomSeed);
+    var palette = ['#eb4034', '#a81b11', '#123a80', '#126680'];
+    for (var i = 0; i < params.Nb_Rosace; i++) {
+        var pos_X = random(width);
+        var pos_Y = random(height);
+        var Rayon_Exterieur = random(40, params.Line_Size);
+        var Rayon_Interieur = random(10, Rayon_Exterieur - 10);
+        var Line_Density = random(100, 500);
+        var variation_X = random(-Rayon_Exterieur / 3, Rayon_Exterieur / 3);
+        var variation_Y = random(-Rayon_Exterieur / 3, Rayon_Exterieur / 3);
+        var color_1 = random(palette);
+        for (var i_1 = 0; i_1 < Line_Density; i_1++) {
+            var angle = TWO_PI / Line_Density * i_1;
+            var variation_exterieur = random(-5, 5);
+            var variation_interieur = random(-5, 5);
+            stroke(color_1);
+            line(pos_X + variation_X + (Rayon_Interieur - variation_interieur) * cos(angle), pos_Y + variation_Y + (Rayon_Interieur - variation_interieur) * sin(angle), pos_X + (Rayon_Exterieur + variation_exterieur) * cos(angle), pos_Y + (Rayon_Exterieur + variation_exterieur) * sin(angle));
+        }
+    }
 }
 function setup() {
     p6_CreateCanvas();
