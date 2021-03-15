@@ -5,11 +5,12 @@
 const gui = new dat.GUI()
 const params = {
     Nb_Rosace : 8,
-    Line_Size: 250,
+    Line_Size: 200,
     Line_Density: 200,
     RandomSeed: 0,
     Download_Image: () => save(),
 }
+
 gui.add(params, "RandomSeed", 0, 20, 1)
 gui.add(params, "Nb_Rosace", 0, 15, 1)
 gui.add(params, "Line_Size", 0, 500, 1)
@@ -47,13 +48,52 @@ function draw() {
         //Couleur aléatoire de la palette des couleurs
         let color = random(palette)
 
+        let variation_exterieur = 0
+        let variation_interieur = 0
+
         for(let i = 0; i < Line_Density; i++)
         {
             let angle = TWO_PI / Line_Density * i;
 
-            //Légère variation des longueurs des segments
-            let variation_exterieur = random(-5,5)
-            let variation_interieur = random(-5,5)
+            if(i > Line_Density * (1-1/100))
+            {
+                if(variation_exterieur > 0)
+                {
+                    variation_exterieur = 1
+                }
+                if(variation_interieur > 0)
+                {
+                    variation_interieur = 1
+                }
+            }
+            else
+            {
+                //Légère variation des longueurs des segments
+                //let variation_exterieur = random(-5,5)
+                //let variation_interieur = random(-5,5)
+    
+                variation_exterieur += random(-3,3)
+    
+                if(variation_exterieur < 0)
+                {
+                    variation_exterieur += random(0,3)
+                }
+                else if(variation_exterieur > 80)
+                {
+                    variation_exterieur -= random(0,3)
+                }
+    
+                variation_interieur += random(-3,3)
+    
+                if(variation_interieur < 0)
+                {
+                    variation_interieur += random(0,3)
+                }
+                else if(variation_interieur > Rayon_Interieur+10)
+                {
+                    variation_interieur -= random(0,3)
+                }
+            }
 
             stroke(color)
 

@@ -1,7 +1,7 @@
 var gui = new dat.GUI();
 var params = {
     Nb_Rosace: 8,
-    Line_Size: 250,
+    Line_Size: 200,
     Line_Density: 200,
     RandomSeed: 0,
     Download_Image: function () { return save(); },
@@ -24,10 +24,34 @@ function draw() {
         var variation_X = random(-Rayon_Exterieur / 3, Rayon_Exterieur / 3);
         var variation_Y = random(-Rayon_Exterieur / 3, Rayon_Exterieur / 3);
         var color_1 = random(palette);
+        var variation_exterieur = 0;
+        var variation_interieur = 0;
         for (var i_1 = 0; i_1 < Line_Density; i_1++) {
             var angle = TWO_PI / Line_Density * i_1;
-            var variation_exterieur = random(-5, 5);
-            var variation_interieur = random(-5, 5);
+            if (i_1 > Line_Density * (1 - 1 / 100)) {
+                if (variation_exterieur > 0) {
+                    variation_exterieur = 1;
+                }
+                if (variation_interieur > 0) {
+                    variation_interieur = 1;
+                }
+            }
+            else {
+                variation_exterieur += random(-3, 3);
+                if (variation_exterieur < 0) {
+                    variation_exterieur += random(0, 3);
+                }
+                else if (variation_exterieur > 80) {
+                    variation_exterieur -= random(0, 3);
+                }
+                variation_interieur += random(-3, 3);
+                if (variation_interieur < 0) {
+                    variation_interieur += random(0, 3);
+                }
+                else if (variation_interieur > Rayon_Interieur + 10) {
+                    variation_interieur -= random(0, 3);
+                }
+            }
             stroke(color_1);
             line(pos_X + variation_X + (Rayon_Interieur - variation_interieur) * cos(angle), pos_Y + variation_Y + (Rayon_Interieur - variation_interieur) * sin(angle), pos_X + (Rayon_Exterieur + variation_exterieur) * cos(angle), pos_Y + (Rayon_Exterieur + variation_exterieur) * sin(angle));
         }
