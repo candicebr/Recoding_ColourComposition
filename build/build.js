@@ -4,18 +4,19 @@ var params = {
     Line_Size: 200,
     RandomSeed: 0,
     Variation: 6,
-    Scale: 100,
     Download_Image: function () { return save(); },
 };
 gui.add(params, "RandomSeed", 0, 20, 1);
 gui.add(params, "Nb_Rosace", 0, 15, 1);
 gui.add(params, "Line_Size", 0, 500, 1);
 gui.add(params, "Variation", 0, 15, 1);
-gui.add(params, "Scale", 0, 100, 0.01);
 gui.add(params, "Download_Image");
 function draw() {
     background(223, 195, 227);
     randomSeed(params.RandomSeed);
+    method2();
+}
+function method1() {
     var palette = ['#eb4034', '#a81b11', '#123a80', '#126680'];
     for (var i = 0; i < params.Nb_Rosace; i++) {
         var pos_X = random(width);
@@ -64,6 +65,30 @@ function draw() {
             stroke(color_1);
             line(pos_X + variation_X + (Rayon_Interieur - variation_interieur) * cos(angle1), pos_Y + variation_Y + (Rayon_Interieur - variation_interieur) * sin(angle1), pos_X + (Rayon_Exterieur + variation_exterieur) * cos(angle1), pos_Y + (Rayon_Exterieur + variation_exterieur) * sin(angle1));
             line(pos_X + variation_X + (Rayon_Interieur - variation_interieur2) * cos(angle2), pos_Y + variation_Y + (Rayon_Interieur - variation_interieur2) * sin(angle2), pos_X + (Rayon_Exterieur + variation_exterieur2) * cos(angle2), pos_Y + (Rayon_Exterieur + variation_exterieur2) * sin(angle2));
+        }
+    }
+}
+function method2() {
+    var palette = ['#eb4034', '#a81b11', '#123a80', '#126680'];
+    for (var i = 0; i < params.Nb_Rosace; i++) {
+        var pos_X = random(width);
+        var pos_Y = random(height);
+        var Rayon_Exterieur = random(60, params.Line_Size);
+        var Rayon_Interieur = random(30, Rayon_Exterieur - 10);
+        var Line_Density = random(150, 600);
+        var variation_X = random(-Rayon_Exterieur / 4, Rayon_Exterieur / 4);
+        var variation_Y = random(-Rayon_Exterieur / 4, Rayon_Exterieur / 4);
+        var color_2 = random(palette);
+        var interieur_off = 0;
+        var exterieur_off = 0;
+        for (var i_2 = 0; i_2 <= Line_Density; i_2++) {
+            var angle1 = TWO_PI / Line_Density * i_2;
+            var variation_interieur = map(noise(0, interieur_off), 0, 1, 0, 30);
+            var variation_exterieur = map(noise(0, exterieur_off), 0, 1, 0, 70);
+            interieur_off += 0.06;
+            exterieur_off += 0.1;
+            stroke(color_2);
+            line(pos_X + variation_X + (Rayon_Interieur - variation_interieur) * cos(angle1), pos_Y + variation_Y + (Rayon_Interieur - variation_interieur) * sin(angle1), pos_X + (Rayon_Exterieur + variation_exterieur) * cos(angle1), pos_Y + (Rayon_Exterieur + variation_exterieur) * sin(angle1));
         }
     }
 }
