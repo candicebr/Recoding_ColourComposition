@@ -2,14 +2,16 @@ var gui = new dat.GUI();
 var params = {
     Nb_Rosace: 8,
     Line_Size: 200,
-    Line_Density: 200,
     RandomSeed: 0,
+    Variation: 6,
+    Scale: 100,
     Download_Image: function () { return save(); },
 };
 gui.add(params, "RandomSeed", 0, 20, 1);
 gui.add(params, "Nb_Rosace", 0, 15, 1);
 gui.add(params, "Line_Size", 0, 500, 1);
-gui.add(params, "Line_Density", 0, 300, 1);
+gui.add(params, "Variation", 0, 15, 1);
+gui.add(params, "Scale", 0, 100, 0.01);
 gui.add(params, "Download_Image");
 function draw() {
     background(223, 195, 227);
@@ -18,42 +20,50 @@ function draw() {
     for (var i = 0; i < params.Nb_Rosace; i++) {
         var pos_X = random(width);
         var pos_Y = random(height);
-        var Rayon_Exterieur = random(40, params.Line_Size);
-        var Rayon_Interieur = random(10, Rayon_Exterieur - 10);
-        var Line_Density = random(100, 500);
-        var variation_X = random(-Rayon_Exterieur / 3, Rayon_Exterieur / 3);
-        var variation_Y = random(-Rayon_Exterieur / 3, Rayon_Exterieur / 3);
+        var Rayon_Exterieur = random(60, params.Line_Size);
+        var Rayon_Interieur = random(30, Rayon_Exterieur - 10);
+        var Line_Density = random(150, 600);
+        var variation_X = random(-Rayon_Exterieur / 4, Rayon_Exterieur / 4);
+        var variation_Y = random(-Rayon_Exterieur / 4, Rayon_Exterieur / 4);
         var color_1 = random(palette);
         var variation_exterieur = 0;
         var variation_interieur = 0;
-        for (var i_1 = 0; i_1 < Line_Density; i_1++) {
-            var angle = TWO_PI / Line_Density * i_1;
-            if (i_1 > Line_Density * (1 - 1 / 100)) {
-                if (variation_exterieur > 0) {
-                    variation_exterieur = 1;
-                }
-                if (variation_interieur > 0) {
-                    variation_interieur = 1;
-                }
-            }
-            else {
-                variation_exterieur += random(-3, 3);
-                if (variation_exterieur < 0) {
-                    variation_exterieur += random(0, 3);
-                }
-                else if (variation_exterieur > 80) {
-                    variation_exterieur -= random(0, 3);
-                }
-                variation_interieur += random(-3, 3);
-                if (variation_interieur < 0) {
-                    variation_interieur += random(0, 3);
-                }
-                else if (variation_interieur > Rayon_Interieur + 10) {
-                    variation_interieur -= random(0, 3);
-                }
+        var variation_exterieur2 = 0;
+        var variation_interieur2 = 0;
+        for (var i_1 = 0; i_1 <= Line_Density / 2; i_1++) {
+            var angle1 = TWO_PI / Line_Density * i_1;
+            var angle2 = TWO_PI / Line_Density * (Line_Density - i_1);
+            if (variation_exterieur <= 0)
+                variation_exterieur += random(0, params.Variation);
+            else if (variation_exterieur > params.Variation * 8)
+                variation_exterieur -= random(0, params.Variation);
+            else
+                variation_exterieur += random(-params.Variation, params.Variation);
+            if (variation_interieur <= 0)
+                variation_interieur += random(0, params.Variation);
+            else if (variation_interieur >= Rayon_Interieur - params.Variation * 2)
+                variation_interieur -= random(0, params.Variation);
+            else
+                variation_interieur += random(-params.Variation, params.Variation);
+            if (variation_exterieur2 <= 0)
+                variation_exterieur2 += random(0, params.Variation);
+            else if (variation_exterieur2 > params.Variation * 8)
+                variation_exterieur2 -= random(0, params.Variation);
+            else
+                variation_exterieur2 += random(-params.Variation, params.Variation);
+            if (variation_interieur2 <= 0)
+                variation_interieur2 += random(0, params.Variation);
+            else if (variation_interieur2 >= Rayon_Interieur - params.Variation * 2)
+                variation_interieur2 -= random(0, params.Variation);
+            else
+                variation_interieur2 += random(-params.Variation, params.Variation);
+            if (i_1 >= (Line_Density / 2) - 10) {
+                variation_interieur2 = (variation_interieur + variation_interieur2) / 2;
+                variation_exterieur2 = (variation_exterieur + variation_exterieur2) / 2;
             }
             stroke(color_1);
-            line(pos_X + variation_X + (Rayon_Interieur - variation_interieur) * cos(angle), pos_Y + variation_Y + (Rayon_Interieur - variation_interieur) * sin(angle), pos_X + (Rayon_Exterieur + variation_exterieur) * cos(angle), pos_Y + (Rayon_Exterieur + variation_exterieur) * sin(angle));
+            line(pos_X + variation_X + (Rayon_Interieur - variation_interieur) * cos(angle1), pos_Y + variation_Y + (Rayon_Interieur - variation_interieur) * sin(angle1), pos_X + (Rayon_Exterieur + variation_exterieur) * cos(angle1), pos_Y + (Rayon_Exterieur + variation_exterieur) * sin(angle1));
+            line(pos_X + variation_X + (Rayon_Interieur - variation_interieur2) * cos(angle2), pos_Y + variation_Y + (Rayon_Interieur - variation_interieur2) * sin(angle2), pos_X + (Rayon_Exterieur + variation_exterieur2) * cos(angle2), pos_Y + (Rayon_Exterieur + variation_exterieur2) * sin(angle2));
         }
     }
 }
