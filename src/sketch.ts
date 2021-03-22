@@ -24,6 +24,16 @@ gui.add(params, "Download_Image")
 function draw() {
     background(223, 195, 227)
     randomSeed(params.RandomSeed)
+    for(let i = 0; i < 40000; i++) {
+        let x1 = random(width)
+        let y1 = random(height)
+        let theta = random(2*PI)
+        let segmentLength = random(5)
+        let x2 = cos(theta) * segmentLength + x1
+        let y2 = sin(theta) * segmentLength + y1
+        stroke(223, 195 - random(15), 227 - random(15));
+        line(x1, y1, x2, y2)
+    }
     //method1()
     method2()
 }
@@ -147,18 +157,12 @@ function method2()
         //Couleur aléatoire de la palette des couleurs
         const color = random(palette)
 
-        //Variation de la longueur des segments
-        let interieur_off = 0
-        let exterieur_off = 0
-
         for(let i = 0; i <= Line_Density; i++)
         {
             const angle1 = TWO_PI / Line_Density * i;
                         
-            let variation_interieur = map(noise(0,interieur_off), 0, 1, 0, 30)
-            let variation_exterieur = map(noise(0,exterieur_off), 0, 1, 0, 70)
-            interieur_off += 0.06
-            exterieur_off += 0.1
+            const variation_interieur = map(noise(i*0.05), 0, 1, 0, 30)
+            const variation_exterieur = map(noise(i*0.1), 0, 1, 0, 70)
 
             stroke(color)
 

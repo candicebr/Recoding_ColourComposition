@@ -14,6 +14,16 @@ gui.add(params, "Download_Image");
 function draw() {
     background(223, 195, 227);
     randomSeed(params.RandomSeed);
+    for (var i = 0; i < 40000; i++) {
+        var x1 = random(width);
+        var y1 = random(height);
+        var theta = random(2 * PI);
+        var segmentLength = random(5);
+        var x2 = cos(theta) * segmentLength + x1;
+        var y2 = sin(theta) * segmentLength + y1;
+        stroke(223, 195 - random(15), 227 - random(15));
+        line(x1, y1, x2, y2);
+    }
     method2();
 }
 function method1() {
@@ -79,14 +89,10 @@ function method2() {
         var variation_X = random(-Rayon_Exterieur / 4, Rayon_Exterieur / 4);
         var variation_Y = random(-Rayon_Exterieur / 4, Rayon_Exterieur / 4);
         var color_2 = random(palette);
-        var interieur_off = 0;
-        var exterieur_off = 0;
         for (var i_2 = 0; i_2 <= Line_Density; i_2++) {
             var angle1 = TWO_PI / Line_Density * i_2;
-            var variation_interieur = map(noise(0, interieur_off), 0, 1, 0, 30);
-            var variation_exterieur = map(noise(0, exterieur_off), 0, 1, 0, 70);
-            interieur_off += 0.06;
-            exterieur_off += 0.1;
+            var variation_interieur = map(noise(i_2 * 0.05), 0, 1, 0, 30);
+            var variation_exterieur = map(noise(i_2 * 0.1), 0, 1, 0, 70);
             stroke(color_2);
             line(pos_X + variation_X + (Rayon_Interieur - variation_interieur) * cos(angle1), pos_Y + variation_Y + (Rayon_Interieur - variation_interieur) * sin(angle1), pos_X + (Rayon_Exterieur + variation_exterieur) * cos(angle1), pos_Y + (Rayon_Exterieur + variation_exterieur) * sin(angle1));
         }
