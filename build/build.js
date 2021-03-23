@@ -4,29 +4,38 @@ var params = {
     Line_Size: 200,
     RandomSeed: 0,
     Variation: 6,
+    MethodNoise: false,
+    Texture: false,
     Download_Image: function () { return save(); },
 };
 gui.add(params, "RandomSeed", 0, 20, 1);
-gui.add(params, "Nb_Rosace", 0, 15, 1);
+gui.add(params, "Nb_Rosace", 0, 25, 1);
 gui.add(params, "Line_Size", 0, 500, 1);
 gui.add(params, "Variation", 0, 15, 1);
+gui.add(params, "MethodNoise");
+gui.add(params, "Texture");
 gui.add(params, "Download_Image");
 function draw() {
     background(223, 195, 227);
     randomSeed(params.RandomSeed);
-    for (var i = 0; i < 40000; i++) {
-        var x1 = random(width);
-        var y1 = random(height);
-        var theta = random(2 * PI);
-        var segmentLength = random(5);
-        var x2 = cos(theta) * segmentLength + x1;
-        var y2 = sin(theta) * segmentLength + y1;
-        stroke(223, 195 - random(15), 227 - random(15));
-        line(x1, y1, x2, y2);
+    if (params.Texture) {
+        for (var i = 0; i < 25000; i++) {
+            var x1 = random(width);
+            var y1 = random(height);
+            var theta = random(2 * PI);
+            var segmentLength = random(5);
+            var x2 = cos(theta) * segmentLength + x1;
+            var y2 = sin(theta) * segmentLength + y1;
+            stroke(223 - random(5), 195 - random(10), 227 - random(10), random(100, 255));
+            line(x1, y1, x2, y2);
+        }
     }
-    method2();
+    if (params.MethodNoise)
+        methodNoise();
+    else
+        methodConditions();
 }
-function method1() {
+function methodConditions() {
     var palette = ['#eb4034', '#a81b11', '#123a80', '#126680'];
     for (var i = 0; i < params.Nb_Rosace; i++) {
         var pos_X = random(width);
@@ -78,7 +87,7 @@ function method1() {
         }
     }
 }
-function method2() {
+function methodNoise() {
     var palette = ['#eb4034', '#a81b11', '#123a80', '#126680'];
     for (var i = 0; i < params.Nb_Rosace; i++) {
         var pos_X = random(width);
