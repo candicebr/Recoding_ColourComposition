@@ -51,7 +51,7 @@ function draw() {
 function methodConditions()
 {
     //palette des couleurs
-    const palette = ['#eb4034', '#a81b11', '#123a80', '#126680']
+    const palette = ['#eb4034', '#a81b11', '#123a80', '#18608c']
 
     for (let i = 0; i < params.Nb_Rosace; i++)
     {
@@ -145,7 +145,7 @@ function methodConditions()
 function methodNoise()
 {
     //palette des couleurs
-    const palette = ['#eb4034', '#a81b11', '#123a80', '#126680']
+    const palette = ['#eb4034', '#a81b11', '#123a80', '#18608c']
 
     for (let i = 0; i < params.Nb_Rosace; i++)
     {
@@ -171,8 +171,8 @@ function methodNoise()
         {
             const angle1 = TWO_PI / Line_Density * i;
                         
-            const variation_interieur = map(noise(i*0.05), 0, 1, 0, 30)
-            const variation_exterieur = map(noise(i*0.1), 0, 1, 0, 70)
+            const variation_interieur = map(noise(i*(params.Variation * 0.01)), 0, 1, 0, 30)
+            const variation_exterieur = map(noise(i*(params.Variation * 0.01)), 0, 1, 0, 70)
 
             stroke(color)
 

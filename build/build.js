@@ -36,7 +36,7 @@ function draw() {
         methodConditions();
 }
 function methodConditions() {
-    var palette = ['#eb4034', '#a81b11', '#123a80', '#126680'];
+    var palette = ['#eb4034', '#a81b11', '#123a80', '#18608c'];
     for (var i = 0; i < params.Nb_Rosace; i++) {
         var pos_X = random(width);
         var pos_Y = random(height);
@@ -88,7 +88,7 @@ function methodConditions() {
     }
 }
 function methodNoise() {
-    var palette = ['#eb4034', '#a81b11', '#123a80', '#126680'];
+    var palette = ['#eb4034', '#a81b11', '#123a80', '#18608c'];
     for (var i = 0; i < params.Nb_Rosace; i++) {
         var pos_X = random(width);
         var pos_Y = random(height);
@@ -100,8 +100,8 @@ function methodNoise() {
         var color_2 = random(palette);
         for (var i_2 = 0; i_2 <= Line_Density; i_2++) {
             var angle1 = TWO_PI / Line_Density * i_2;
-            var variation_interieur = map(noise(i_2 * 0.05), 0, 1, 0, 30);
-            var variation_exterieur = map(noise(i_2 * 0.1), 0, 1, 0, 70);
+            var variation_interieur = map(noise(i_2 * (params.Variation * 0.01)), 0, 1, 0, 30);
+            var variation_exterieur = map(noise(i_2 * (params.Variation * 0.01)), 0, 1, 0, 70);
             stroke(color_2);
             line(pos_X + variation_X + (Rayon_Interieur - variation_interieur) * cos(angle1), pos_Y + variation_Y + (Rayon_Interieur - variation_interieur) * sin(angle1), pos_X + (Rayon_Exterieur + variation_exterieur) * cos(angle1), pos_Y + (Rayon_Exterieur + variation_exterieur) * sin(angle1));
         }
